@@ -37,17 +37,17 @@ class Yylex {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\12\0\1\3\1\3\1\3\1\3\23\0\1\0\1\0\1\4\1\0"+
-    "\1\0\1\0\1\0\1\0\1\0\1\2\1\0\1\0\1\0\1\0"+
-    "\1\1\1\0\1\0\6\0\2\0\1\0\1\0\1\0\1\0\1\0"+
+    "\12\0\1\10\1\12\1\12\1\11\22\0\1\14\1\0\1\0\1\13"+
+    "\1\0\1\0\1\0\1\0\1\0\1\0\1\7\1\0\1\0\1\0"+
+    "\1\0\1\6\1\0\1\0\6\0\2\0\1\0\1\0\1\3\1\0"+
+    "\1\5\1\4\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0"+
+    "\1\1\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\2\1\0"+
     "\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0"+
     "\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0"+
-    "\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0"+
-    "\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0"+
-    "\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0"+
-    "\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0"+
-    "\1\0\1\0\1\0\1\0\6\0\1\3\172\0\60\0\2\0\115\0"+
-    "\1\0\u1ea8\0\1\3\1\3\u0100\0\1\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udee5\0";
+    "\1\0\1\0\1\1\1\0\1\0\1\0\1\0\1\0\1\0\1\0"+
+    "\1\2\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0\1\0"+
+    "\1\0\1\0\1\0\1\0\1\0\6\0\1\12\172\0\60\0\2\0"+
+    "\115\0\1\0\u1ea8\0\1\12\1\12\u0100\0\1\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\udee5\0";
 
   /** 
    * Translates characters to character classes
@@ -60,10 +60,11 @@ class Yylex {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\2\1\1\2\2\0\1\2";
+    "\1\0\4\1\1\2\1\0\1\3\1\0\1\4\4\0"+
+    "\1\3";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[7];
+    int [] result = new int[15];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -88,10 +89,11 @@ class Yylex {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\5\0\12\0\17\0\24\0\31\0\5";
+    "\0\0\0\15\0\32\0\47\0\64\0\15\0\101\0\116"+
+    "\0\133\0\15\0\150\0\165\0\202\0\217\0\15";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[7];
+    int [] result = new int[15];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -114,12 +116,14 @@ class Yylex {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\2\1\0\1\4\6\0\1\4\1\5"+
-    "\2\0\3\4\1\0\1\4\1\5\1\0\1\6\2\5"+
-    "\1\0\1\7\3\0";
+    "\3\2\1\3\1\4\1\2\1\5\1\2\1\6\1\7"+
+    "\1\0\1\10\1\6\21\0\1\11\15\0\1\12\15\0"+
+    "\1\10\1\13\15\0\1\6\4\0\10\10\3\0\2\10"+
+    "\2\0\1\14\12\0\6\13\1\0\1\15\5\13\1\0"+
+    "\1\16\21\0\1\17\10\0\1\12\12\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[30];
+    int [] result = new int[156];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -157,10 +161,11 @@ class Yylex {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\2\1\2\0\1\11";
+    "\1\0\1\11\3\1\1\11\1\0\1\1\1\0\1\11"+
+    "\4\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[7];
+    int [] result = new int[15];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -256,7 +261,7 @@ class Yylex {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 246) {
+    while (i < 248) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -609,11 +614,19 @@ class Yylex {
           case 1: 
             { System.out.println("b");
             }
-          case 3: break;
+          case 5: break;
           case 2: 
+            { //ignore
+            }
+          case 6: break;
+          case 3: 
             { System.out.println("a");
             }
-          case 4: break;
+          case 7: break;
+          case 4: 
+            { System.out.println("lola");
+            }
+          case 8: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

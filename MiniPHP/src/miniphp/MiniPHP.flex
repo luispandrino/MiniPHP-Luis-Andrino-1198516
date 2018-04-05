@@ -88,11 +88,17 @@ recordset = "$"recordset"["{tipoCadena}"]"
 PalabrasReservadas = __halt_compiler |break|clone|die|empty|endswitch|final|global|include_once|list|private|return|try|xor|abstract|callable|const|do|enddeclare|endwhile|finally|goto|instanceof|namespace|define|protected|static|unset|yield|and|case|continue|echo|endfor|eval|for|if|insteadof|new|public|switch|use|array|catch|declare|endforeach|exit|foreach|implements|interface|or|require|throw|var|as|class|default|elseif|endif|extends|function|include|isset|print|require_once|trait|while
 //dos botones uno es selector de archivo pra el jFlex y otro boton PHP
 //File reader del php buffer reader al file reader y luego haces una instancia jlex y le envias 
-
+EXP_ESPACIO = \n|\r\n|" "
 
 %%
 {commentario}   {
     System.out.println("a");
+}
+{inicioPHP} {
+    System.out.println("lola");
+}
+{EXP_ESPACIO}   {
+    //ignore
 }
 .   {
     System.out.println("b");

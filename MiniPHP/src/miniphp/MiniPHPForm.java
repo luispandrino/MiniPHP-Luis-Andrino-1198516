@@ -119,7 +119,7 @@ public class MiniPHPForm extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             JFileChooser dialogo =new JFileChooser();
-            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo PHP", ".php");
+            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo PHP", "php");
             File ficheroImagen;
             String rutaArchivoPHP;
             dialogo.setFileFilter(filtro);
@@ -133,10 +133,15 @@ public class MiniPHPForm extends javax.swing.JFrame {
                 
             }   objFileReader = new FileReader(PHP);
             BufferedReader objBufferedReader = new BufferedReader(objFileReader);
-            //Yylex objYylex = new Yylex(objFileReader);
-            //objYylex.nextToken();
+            Yylex objYylex = new Yylex(objFileReader);
+            Yytoken yytoken = null;
+            do{
+                yytoken = objYylex.nextToken();
+            }while(yytoken != null);
             
         } catch (FileNotFoundException ex) {
+            Logger.getLogger(MiniPHPForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
             Logger.getLogger(MiniPHPForm.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
