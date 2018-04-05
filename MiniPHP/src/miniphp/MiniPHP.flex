@@ -1,5 +1,6 @@
 
 package miniphp;
+import java.util.ArrayList;
 
 class Yytoken{
     Yytoken (String token, String tipo, int linea, int columna){
@@ -28,6 +29,27 @@ class Yytoken{
 
 
 %%
+%{
+ArrayList<String> Tokens = new ArrayList<String>();
+    ArrayList<String> TokensError = new ArrayList<String>();
+   
+    public void CrearToken(String tipo){
+        if(tipo == "error")
+        {
+        Yytoken token = new Yytoken (yytext(),tipo,yyline,yycolumn);
+        TokensError.add(token.toString());
+        
+        }
+        else{
+        Yytoken token = new Yytoken (yytext(),tipo,yyline,yycolumn);
+        Tokens.add(token.toString());
+        }
+    }
+
+
+        
+        
+%}
 
 %line
 %column
@@ -81,7 +103,7 @@ booleanos = {t}{r}{u}{e}|{f}{a}{l}{s}{e}
 constantesEnTiempoDeCompilacion = "__"|"LINE"|"FILE"|"DIR"|"FUNCTION"|"CLASS"|"TRAIT"|"METHOD"|"NAMESPACE"|"__"
 tipoEntero = [+-]?({numerosDecimales}|{numerosHexadecimal}|{numerosOctal}|{numerosBinarios})
 tipoFlotante = [-+]?[0-9]*\.?[0-9]+([eE]{tipoEntero}.?[0-9]*)?
-tipoCadena = '([^'\n]|\\')*'|\"([^\"\n]|\\\")*\"
+tipoCadena = ('([^'\n\\]|\\.)*')|(\"([^\"\n\\]|\\.)*\")
 operandosLogicos = "and"|"or"|"xor"|"!"|"&&"|"||"
 identificadorVariable = "$"{identificador}
 identificadorConstante = {identificador}
@@ -108,46 +130,44 @@ comentarioSimple = ("//"|"#")(.)*
 comentarioMultiple = "/*"([^*/])*"*/"
 commentario = {comentarioSimple}|{comentarioMultiple}
 recordset = "$"recordset"["{tipoCadena}"]"
-palabrasReservadas = __halt_compiler |break|clone|die|empty|endswitch|final|global|include_once|list|private|return|try|xor|abstract|callable|const|do|enddeclare|endwhile|finally|goto|instanceof|namespace|define|protected|static|unset|yield|and|case|continue|echo|endfor|eval|for|if|insteadof|new|public|switch|use|array|catch|declare|endforeach|exit|foreach|implements|interface|or|require|throw|var|as|class|default|elseif|endif|extends|function|include|isset|print|require_once|trait|while
-//dos botones uno es selector de archivo pra el jFlex y otro boton PHP
-//File reader del php buffer reader al file reader y luego haces una instancia jlex y le envias 
+palabrasReservadas = __halt_compiler |break|clone|die|empty|endswitch|final|global|include_once|list|private|return|try|xor|abstract|callable|const|do|enddeclare|endwhile|finally|goto|instanceof|namespace|define|protected|static|unset|yield|and|case|continue|echo|endfor|eval|for|if|insteadof|new|public|switch|use|array|catch|declare|endforeach|exit|foreach|implements|interface|or|require|throw|var|as|class|default|elseif|endif|extends|function|include|isset|print|require_once|trait|while 
 EXP_ESPACIO = \n|\r\n|" "
 
 %%
-{commentario} {System.out.println("comentario");}
-{inicioPHP} {System.out.println("Inicio_Fin");}
-{operandosMatematicas} {System.out.println("Operando Matematico");}
+{commentario} {CrearToken("Comentario");}
+{inicioPHP} { CrearToken("Inicio_FinPHP");}
+{operandosMatematicas} {CrearToken("Operandos Matematicos");}
 {EXP_ESPACIO} {
     //ignorar
 }
 {coma} 
 {
-    System.out.println("coma");
+    CrearToken("Coma");
 }
-{puntoycoma} {System.out.println("Punto y coma");}
-{parentesis} {System.out.println("Parentesis");}
-{llaves} {System.out.println("llaves");}
-{corchetes} {System.out.println("Corchetes");}
-{operandosCompracion} {System.out.println("Operando comparacion");}
-{operandosAsignacion} {System.out.println("Operando asignacion");}
-{operandoIncrementoDecremento} {System.out.println("Operando IncrementoDecremento");}
-{booleanos} {System.out.println("bool");}
-{constantesEnTiempoDeCompilacion} {System.out.println("Constantes Compi");}
-{tipoEntero} {System.out.println("tipo entero");}
-{tipoFlotante} {System.out.println("tipo flotante");}
-{tipoCadena} {System.out.println("tipo caadena");}
-{operandosLogicos} {System.out.println("Operando Logico");}
-{identificadorVariable} {System.out.println("ID var");}
-{identificadorConstante} {System.out.println("ID Const");}
-{funcion} {System.out.println("funcion");}
-{estructurasDeControl} {System.out.println("estructuras de control");}
-{superglobal} {System.out.println("superglobal");}
-{palabrasReservadas} {System.out.println("palabras reservadas");}
-{variablesReservadas}       {System.out.println("variable reservada");}
-{otrasVariablesReservadas}   {System.out.println("otras variables reservadas");}
-{commentario}    {System.out.println("comentario");}
-{recordset}     {System.out.println("recordset");}
+{puntoycoma} {CrearToken("Punto y coma");}
+{parentesis} {CrearToken("Parentesis");}
+{llaves} {CrearToken("Llaves");}
+{corchetes} {CrearToken("Corchetes");}
+{operandosCompracion} {CrearToken("Operando comparacion");}
+{operandosAsignacion} {CrearToken("Operando asignacion");}
+{operandoIncrementoDecremento} {CrearToken("Operando IncrementoDecremento");}
+{booleanos} {CrearToken("bool");}
+{constantesEnTiempoDeCompilacion} {CrearToken("Constantes Compi");}
+{tipoEntero} {CrearToken("tipo entero");}
+{tipoFlotante} {CrearToken("tipo flotante");}
+{tipoCadena} {CrearToken("tipo caadena");}
+{operandosLogicos} {CrearToken("Operando Logico");}
+{identificadorVariable} {CrearToken("ID var");}
+{identificadorConstante} {CrearToken("ID Const");}
+{funcion} {CrearToken("funcion");}
+{estructurasDeControl} {CrearToken("estructuras de control");}
+{superglobal} {CrearToken("superglobal");}
+{palabrasReservadas} {CrearToken("palabras reservadas");}
+{variablesReservadas}       {CrearToken("variable reservada");}
+{otrasVariablesReservadas}   {CrearToken("otras variables reservadas");}
+{commentario}    {CrearToken("comentario");}
+{recordset}     {CrearToken("recordset");}
 
 
 //Errores
-.   {System.out.println("ERROR");}
+.   {CrearToken("ERROR");}
