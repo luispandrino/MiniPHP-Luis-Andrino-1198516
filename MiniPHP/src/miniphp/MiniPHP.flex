@@ -48,6 +48,7 @@ BufferedWriter bw;
             bw = new BufferedWriter(new FileWriter(ArchivoSalida));
             for(int i = 0; ListaPHP.size()> i; i++ ){
                bw.write(ListaPHP.get(i).toString());
+
             }
 
             bw.close();
@@ -142,14 +143,40 @@ superglobal = "$"(GLOBALS|_(SERVER|GET|POST|FILES|COOKIE|SESSION|REQUEST|ENV))
 otrasVariablesReservadas = "$"(php_errormsg|HTTP_RAW_POST_DATA|http_response_header|argc|argv|args)
 variablesReservadas = {superglobal}|{otrasVariablesReservadas}
 comentarioSimple = ("//"|"#")(.)*
-comentarioMultiple = "/*"([^*/])*"*/"
+comentarioMultiple = (("/*")~("*/"))
 commentario = {comentarioSimple}|{comentarioMultiple}
 recordset = "$"recordset"["{tipoCadena}"]"
+concatenacion = \.
 palabrasReservadas = __halt_compiler |break|clone|die|empty|endswitch|final|global|include_once|list|private|return|try|xor|abstract|callable|const|do|enddeclare|endwhile|finally|goto|instanceof|namespace|define|protected|static|unset|yield|and|case|continue|echo|endfor|eval|for|if|insteadof|new|public|switch|use|array|catch|declare|endforeach|exit|foreach|implements|interface|or|require|throw|var|as|class|default|elseif|endif|extends|function|include|isset|print|require_once|trait|while 
-EXP_ESPACIO = \n|\r\n|" "
+EXP_ESPACIO = \n|\r\n|" "|\t|\s
 
 %%
 {commentario} {Yytoken T = new Yytoken(yytext(),"Comentario",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
-{inicioPHP} {Yytoken T = new Yytoken(yytext(),"Inicio/Fin PHP",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{tipoCadena} {Yytoken T = new Yytoken(yytext(),"Tipo Cadena",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo");}
+{estructurasDeControl} {Yytoken T = new Yytoken(yytext(),"Estructuras de Control",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo");}
+{concatenacion} {Yytoken T = new Yytoken(yytext(),"concatenacion",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {EXP_ESPACIO} {Yytoken T = new Yytoken(yytext(),"Espacio",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
-
+{inicioPHP} {Yytoken T = new Yytoken(yytext(),"Inicio/Fin PHP",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{constantesEnTiempoDeCompilacion}   {Yytoken T = new Yytoken(yytext(),"constantesEnTiempoDeCompilacion",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{variablesReservadas}   {Yytoken T = new Yytoken(yytext(),"variablesReservadas",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{otrasVariablesReservadas}  {Yytoken T = new Yytoken(yytext(),"otrasVariablesReservadas",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{operandosAsignacion}   {Yytoken T = new Yytoken(yytext(),"operandosAsignacion",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{operandosMatematicas}  {Yytoken T = new Yytoken(yytext(),"operandosMatematicas",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{operandosCompracion}   {Yytoken T = new Yytoken(yytext(),"operandosCompracion",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{operandosLogicos}  {Yytoken T = new Yytoken(yytext(),"operandosLogicos",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{operandoIncrementoDecremento}  {Yytoken T = new Yytoken(yytext(),"operandoIncrementoDecremento",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{parentesis}    {Yytoken T = new Yytoken(yytext(),"parentesis",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{llaves}    {Yytoken T = new Yytoken(yytext(),"llaves",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{corchetes} {Yytoken T = new Yytoken(yytext(),"corchetes",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{puntoycoma}    {Yytoken T = new Yytoken(yytext(),"puntoycoma",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{coma}  {Yytoken T = new Yytoken(yytext(),"coma",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{booleanos} {Yytoken T = new Yytoken(yytext(),"booleanos",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{tipoEntero}    {Yytoken T = new Yytoken(yytext(),"tipoEntero",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{tipoFlotante}  {Yytoken T = new Yytoken(yytext(),"tipoFlotante",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{identificadorVariable} {Yytoken T = new Yytoken(yytext(),"identificadorVariable",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{recordset} {Yytoken T = new Yytoken(yytext(),"recordset",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{funcion}   {Yytoken T = new Yytoken(yytext(),"funcion",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{palabrasReservadas}    {Yytoken T = new Yytoken(yytext(),"palabrasReservadas",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{identificadorConstante}    {Yytoken T = new Yytoken(yytext(),"identificadorConstante",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+//Errores
+.   {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHP.add(T); System.out.println("Error"+ yyline); }
