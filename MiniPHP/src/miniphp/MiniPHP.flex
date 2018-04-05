@@ -1,6 +1,13 @@
 
 package miniphp;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class Yytoken{
     Yytoken (String token, String tipo, int linea, int columna){
@@ -15,8 +22,7 @@ class Yytoken{
     public int columna;
 
     public String toString() {
-        return "Token : "+token+" C.Lexico: "+tipo+" ["+linea
-        + "," +columna + "]";
+        return token;
     }
     
 }
@@ -30,26 +36,35 @@ class Yytoken{
 
 %%
 %{
-ArrayList<String> Tokens = new ArrayList<String>();
-    ArrayList<String> TokensError = new ArrayList<String>();
-   
-    public void CrearToken(String tipo){
-        if(tipo == "error")
-        {
-        Yytoken token = new Yytoken (yytext(),tipo,yyline,yycolumn);
-        TokensError.add(token.toString());
-        
+LinkedList ListaPHP =new LinkedList();
+LinkedList ListaPHPError = new LinkedList();
+public String ruta ="";
+public void CrearArchivo(){
+ruta = ruta.substring(0,ruta.length()-3);
+File ArchivoSalida = new File(ruta+"OUT");
+BufferedWriter bw;
+        try {
+            //ArchivoSalida.out
+            bw = new BufferedWriter(new FileWriter(ArchivoSalida));
+            for(int i = 0; ListaPHP.size()> i; i++ ){
+               bw.write(ListaPHP.get(i).toString());
+            }
+
+            bw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Clase.class.getName()).log(Level.SEVERE, null, ex);
         }
-        else{
-        Yytoken token = new Yytoken (yytext(),tipo,yyline,yycolumn);
-        Tokens.add(token.toString());
-        }
-    }
 
 
-        
-        
+}
+
+
 %}
+
+
+%eof{
+CrearArchivo();
+%eof}
 
 %line
 %column
@@ -134,40 +149,7 @@ palabrasReservadas = __halt_compiler |break|clone|die|empty|endswitch|final|glob
 EXP_ESPACIO = \n|\r\n|" "
 
 %%
-{commentario} {CrearToken("Comentario");}
-{inicioPHP} { CrearToken("Inicio_FinPHP");}
-{operandosMatematicas} {CrearToken("Operandos Matematicos");}
-{EXP_ESPACIO} {
-    //ignorar
-}
-{coma} 
-{
-    CrearToken("Coma");
-}
-{puntoycoma} {CrearToken("Punto y coma");}
-{parentesis} {CrearToken("Parentesis");}
-{llaves} {CrearToken("Llaves");}
-{corchetes} {CrearToken("Corchetes");}
-{operandosCompracion} {CrearToken("Operando comparacion");}
-{operandosAsignacion} {CrearToken("Operando asignacion");}
-{operandoIncrementoDecremento} {CrearToken("Operando IncrementoDecremento");}
-{booleanos} {CrearToken("bool");}
-{constantesEnTiempoDeCompilacion} {CrearToken("Constantes Compi");}
-{tipoEntero} {CrearToken("tipo entero");}
-{tipoFlotante} {CrearToken("tipo flotante");}
-{tipoCadena} {CrearToken("tipo caadena");}
-{operandosLogicos} {CrearToken("Operando Logico");}
-{identificadorVariable} {CrearToken("ID var");}
-{identificadorConstante} {CrearToken("ID Const");}
-{funcion} {CrearToken("funcion");}
-{estructurasDeControl} {CrearToken("estructuras de control");}
-{superglobal} {CrearToken("superglobal");}
-{palabrasReservadas} {CrearToken("palabras reservadas");}
-{variablesReservadas}       {CrearToken("variable reservada");}
-{otrasVariablesReservadas}   {CrearToken("otras variables reservadas");}
-{commentario}    {CrearToken("comentario");}
-{recordset}     {CrearToken("recordset");}
+{commentario} {Yytoken T = new Yytoken(yytext(),"Comentario",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{inicioPHP} {Yytoken T = new Yytoken(yytext(),"Inicio/Fin PHP",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{EXP_ESPACIO} {Yytoken T = new Yytoken(yytext(),"Espacio",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 
-
-//Errores
-.   {CrearToken("ERROR");}

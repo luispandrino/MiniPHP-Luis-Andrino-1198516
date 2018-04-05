@@ -134,10 +134,11 @@ public class MiniPHPForm extends javax.swing.JFrame {
             }   objFileReader = new FileReader(PHP);
             BufferedReader objBufferedReader = new BufferedReader(objFileReader);
            Yylex objYylex = new Yylex(objFileReader);
+           objYylex.ruta = PHP;
            Yytoken mastertoken= null;
            do{
                 mastertoken = objYylex.nextToken();
-               
+                
             }while(mastertoken!= null);
             
         } catch (FileNotFoundException ex) {
@@ -151,6 +152,8 @@ public class MiniPHPForm extends javax.swing.JFrame {
                 Logger.getLogger(MiniPHPForm.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        
+        
     }//GEN-LAST:event_btnPHPActionPerformed
 
     /**
