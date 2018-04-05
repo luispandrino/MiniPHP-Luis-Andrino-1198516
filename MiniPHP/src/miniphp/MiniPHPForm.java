@@ -133,10 +133,11 @@ public class MiniPHPForm extends javax.swing.JFrame {
                 
             }   objFileReader = new FileReader(PHP);
             BufferedReader objBufferedReader = new BufferedReader(objFileReader);
-            Yylex objYylex = new Yylex(objFileReader);
-            Yytoken yytoken = null;
+           Yylex objYylex = new Yylex(objFileReader);
+           Yytoken yytoken = null;
             do{
                 yytoken = objYylex.nextToken();
+               
             }while(yytoken != null);
             
         } catch (FileNotFoundException ex) {
