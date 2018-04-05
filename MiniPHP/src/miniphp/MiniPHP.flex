@@ -1,31 +1,29 @@
 
 package miniphp;
 
-class Yytoken {
-    Yytoken (int numToken,String token, String tipo, int linea, int columna){
-        //Contador para el número de tokens reconocidos
-        this.numToken = numToken;
-        //String del token reconocido
+class Yytoken{
+    Yytoken (String token, String tipo, int linea, int columna){
         this.token = new String(token);
-        //Tipo de componente léxico encontrado
         this.tipo = tipo;
-        //Número de linea
         this.linea = linea;
-        //Columna donde empieza el primer carácter del token
         this.columna = columna;
-    }
-    //Métodos de los atributos de la clase
-    public int numToken;
+    } 
     public String token;
     public String tipo;
     public int linea;
     public int columna;
-    //Metodo que devuelve los datos necesarios que escribiremos en un archive de salida
+
     public String toString() {
-        return "Token #"+numToken+": "+token+" C.Lexico: "+tipo+" ["+linea
+        return "Token : "+token+" C.Lexico: "+tipo+" ["+linea
         + "," +columna + "]";
     }
+    
 }
+
+
+
+
+
 
 
 
@@ -67,7 +65,7 @@ numerosDecimales = [1-9][0-9]*|0
 numerosHexadecimal = 0[xX][0-9a-fA-F]+
 numerosOctal = 0[0-7]+
 numerosBinarios = 0[bB][01]+
-parrafo = [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
+Identificador = [a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*
 
 inicioPHP = "<?"{p}{h}{p}|"?>"
 operandosMatematicas = "+"|"-"|"/"|"*"|"**"
@@ -81,7 +79,7 @@ operandosAsignacion = "="|"+="|"-="|"*="|"/="
 operandoIncrementoDecremento = "++"|"--"
 booleanos = {t}{r}{u}{e}|{f}{a}{l}{s}{e}
 constantesEnTiempoDeCompilacion = "__"|"LINE"|"FILE"|"DIR"|"FUNCTION"|"CLASS"|"TRAIT"|"METHOD"|"NAMESPACE"|"__"
-tipoEntero =  = [+-]?({decimal}|{hexadecimal}|{octal}|{binary})
+tipoEntero = [+-]?({numerosDecimales}|{numerosHexadecimal}|{numerosOctal}|{numerosBinarios})
 tipoFlotante = [-+]?[0-9]*\.?[0-9]+([eE]{tipoEntero}.?[0-9]*)?
 tipoCadena = '([^'\n]|\\')*'|\"([^\"\n]|\\\")*\"
 operandosLogicos = "and"|"or"|"xor"|"!"|"&&"|"||"
@@ -116,11 +114,11 @@ PalabrasReservadas = __halt_compiler |break|clone|die|empty|endswitch|final|glob
 EXP_ESPACIO = \n|\r\n|" "
 
 %%
-{commentario}   {
-    System.out.println("a");
+{commentario}   { 
+    
 }
 {inicioPHP} {
-     System.out.println("b");
+    
 }
 {EXP_ESPACIO}   {
     //ignore

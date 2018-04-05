@@ -3,31 +3,29 @@
 
 package miniphp;
 
-class Yytoken {
-    Yytoken (int numToken,String token, String tipo, int linea, int columna){
-        //Contador para el número de tokens reconocidos
-        this.numToken = numToken;
-        //String del token reconocido
+class Yytoken{
+    Yytoken (String token, String tipo, int linea, int columna){
         this.token = new String(token);
-        //Tipo de componente léxico encontrado
         this.tipo = tipo;
-        //Número de linea
         this.linea = linea;
-        //Columna donde empieza el primer carácter del token
         this.columna = columna;
-    }
-    //Métodos de los atributos de la clase
-    public int numToken;
+    } 
     public String token;
     public String tipo;
     public int linea;
     public int columna;
-    //Metodo que devuelve los datos necesarios que escribiremos en un archive de salida
+
     public String toString() {
-        return "Token #"+numToken+": "+token+" C.Lexico: "+tipo+" ["+linea
+        return "Token : "+token+" C.Lexico: "+tipo+" ["+linea
         + "," +columna + "]";
     }
+    
 }
+
+
+
+
+
 
 
 
@@ -645,11 +643,11 @@ class Yylex {
             }
           case 6: break;
           case 3: 
-            { System.out.println("a");
+            { 
             }
           case 7: break;
           case 4: 
-            { System.out.println("b");
+            { 
             }
           case 8: break;
           default:
