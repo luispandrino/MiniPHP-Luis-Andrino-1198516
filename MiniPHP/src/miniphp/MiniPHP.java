@@ -16,6 +16,8 @@ public class MiniPHP {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        MiniPHPForm Form = new MiniPHPForm();
+        Form.setVisible(true);
     }
     
 }
