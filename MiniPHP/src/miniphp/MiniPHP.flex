@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 class Yytoken{
     Yytoken (String token, String tipo, int linea, int columna){
@@ -22,6 +23,10 @@ class Yytoken{
     public int columna;
 
     public String toString() {
+        if (tipo == "Error") {
+            
+           return "Token : "+token+" C.Lexico: "+tipo+" ["+linea + "," +columna + "]" ; 
+        }
         return token;
     }
     
@@ -44,19 +49,37 @@ ruta = ruta.substring(0,ruta.length()-3);
 File ArchivoSalida = new File(ruta+"OUT");
 BufferedWriter bw;
         try {
-            //ArchivoSalida.out
-            bw = new BufferedWriter(new FileWriter(ArchivoSalida));
-            for(int i = 0; ListaPHP.size()> i; i++ ){
+
+           if(ListaPHP.isEmpty() == false ){
+                  bw = new BufferedWriter(new FileWriter(ArchivoSalida));
+
+               for(int i = 0; ListaPHP.size()> i; i++ ){
+               if(((Yytoken)ListaPHP.get(i)).tipo.equals("estructurasDeControl")){
+                String aux = ListaPHP.get(i).toString().toLowerCase();
+                ListaPHP.set(i,aux);
+                } 
                bw.write(ListaPHP.get(i).toString());
-
             }
-
-            bw.close();
+               bw.close();
+            }
+             
+            if(ListaPHPError.isEmpty() == false){
+               ArchivoSalida = new File(ruta+"ERR");
+               bw = new BufferedWriter(new FileWriter(ArchivoSalida));
+               String Errores= "";
+               for(int i = 0; ListaPHPError.size()> i; i++ ){
+               Errores += ListaPHPError.get(i).toString()+"\n";  
+               bw.write(ListaPHPError.get(i).toString()+"\n");
+               }
+               JOptionPane.showMessageDialog(null, Errores,"Listado de errores",JOptionPane.WARNING_MESSAGE);
+               bw.close();
+            }
+            
+            
+           
         } catch (IOException ex) {
             Logger.getLogger(Clase.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-
 }
 
 
@@ -115,6 +138,7 @@ corchetes = "["|"]"
 operandosCompracion = "=="|"==="|"!="|"<>"|"!=="|"<"|">"|"<="|">="|"<=>"|"??"
 operandosAsignacion = "="|"+="|"-="|"*="|"/="
 operandoIncrementoDecremento = "++"|"--"
+pipe = "|"
 booleanos = {t}{r}{u}{e}|{f}{a}{l}{s}{e}
 constantesEnTiempoDeCompilacion = "__"|"LINE"|"FILE"|"DIR"|"FUNCTION"|"CLASS"|"TRAIT"|"METHOD"|"NAMESPACE"|"__"
 tipoEntero = [+-]?({numerosDecimales}|{numerosHexadecimal}|{numerosOctal}|{numerosBinarios})
@@ -153,7 +177,7 @@ EXP_ESPACIO = \n|\r\n|" "|\t|\s
 %%
 {commentario} {Yytoken T = new Yytoken(yytext(),"Comentario",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {tipoCadena} {Yytoken T = new Yytoken(yytext(),"Tipo Cadena",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo");}
-{estructurasDeControl} {Yytoken T = new Yytoken(yytext(),"Estructuras de Control",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo");}
+{estructurasDeControl} {Yytoken T = new Yytoken(yytext(),"estructurasDeControl",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo");}
 {concatenacion} {Yytoken T = new Yytoken(yytext(),"concatenacion",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {EXP_ESPACIO} {Yytoken T = new Yytoken(yytext(),"Espacio",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {inicioPHP} {Yytoken T = new Yytoken(yytext(),"Inicio/Fin PHP",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
@@ -168,6 +192,7 @@ EXP_ESPACIO = \n|\r\n|" "|\t|\s
 {parentesis}    {Yytoken T = new Yytoken(yytext(),"parentesis",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {llaves}    {Yytoken T = new Yytoken(yytext(),"llaves",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {corchetes} {Yytoken T = new Yytoken(yytext(),"corchetes",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{pipe}  {Yytoken T = new Yytoken(yytext(),"pipe",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {puntoycoma}    {Yytoken T = new Yytoken(yytext(),"puntoycoma",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {coma}  {Yytoken T = new Yytoken(yytext(),"coma",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {booleanos} {Yytoken T = new Yytoken(yytext(),"booleanos",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
@@ -179,4 +204,4 @@ EXP_ESPACIO = \n|\r\n|" "|\t|\s
 {palabrasReservadas}    {Yytoken T = new Yytoken(yytext(),"palabrasReservadas",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {identificadorConstante}    {Yytoken T = new Yytoken(yytext(),"identificadorConstante",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 //Errores
-.   {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHP.add(T); System.out.println("Error"+ yyline); }
+.   {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHPError.add(T); System.out.println("Error"+ yyline); }
