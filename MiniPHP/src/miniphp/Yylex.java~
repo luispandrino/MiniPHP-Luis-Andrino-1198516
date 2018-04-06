@@ -852,7 +852,7 @@ BufferedWriter bw;
                 String aux = ListaPHP.get(i).toString().toLowerCase();
                 ListaPHP.set(i,aux);
                 } 
-                if(((Yytoken)ListaPHP.get(i)).tipo.equals("recordset")){
+                else if(((Yytoken)ListaPHP.get(i)).tipo.equals("recordset")){
                 String aux = ((Yytoken)ListaPHP.get(i)).toString().substring(((Yytoken)ListaPHP.get(i)).toString().indexOf("'")+1, ((Yytoken)ListaPHP.get(i)).toString().lastIndexOf("'"));
                 String Entrada = "$recordset['"+aux.toUpperCase()+"']";
                 ListaPHP.set(i,Entrada);

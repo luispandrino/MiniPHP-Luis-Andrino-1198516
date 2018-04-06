@@ -50,7 +50,7 @@ File ArchivoSalida = new File(ruta+"OUT");
 BufferedWriter bw;
         try {
 
-           if(ListaPHP.isEmpty() == false){
+           if(ListaPHP.isEmpty() == false && ListaPHP.isEmpty() == true){
                   bw = new BufferedWriter(new FileWriter(ArchivoSalida));
 
                for(int i = 0; ListaPHP.size()> i; i++ ){
