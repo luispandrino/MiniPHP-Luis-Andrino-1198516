@@ -844,13 +844,18 @@ File ArchivoSalida = new File(ruta+"OUT");
 BufferedWriter bw;
         try {
 
-           if(ListaPHP.isEmpty() == false ){
+           if(ListaPHP.isEmpty() == false){
                   bw = new BufferedWriter(new FileWriter(ArchivoSalida));
 
                for(int i = 0; ListaPHP.size()> i; i++ ){
                if(((Yytoken)ListaPHP.get(i)).tipo.equals("estructurasDeControl")){
                 String aux = ListaPHP.get(i).toString().toLowerCase();
                 ListaPHP.set(i,aux);
+                } 
+                if(((Yytoken)ListaPHP.get(i)).tipo.equals("recordset")){
+                String aux = ((Yytoken)ListaPHP.get(i)).toString().substring(((Yytoken)ListaPHP.get(i)).toString().indexOf("'")+1, ((Yytoken)ListaPHP.get(i)).toString().lastIndexOf("'"));
+                String Entrada = "$recordset['"+aux.toUpperCase()+"']";
+                ListaPHP.set(i,Entrada);
                 } 
                bw.write(ListaPHP.get(i).toString());
             }
