@@ -1,4 +1,3 @@
-
 a = [Aa]
 b = [Bb]
 c = [Cc]
@@ -47,7 +46,7 @@ booleanos = {t}{r}{u}{e}|{f}{a}{l}{s}{e}
 constantesEnTiempoDeCompilacion = "__"|"LINE"|"FILE"|"DIR"|"FUNCTION"|"CLASS"|"TRAIT"|"METHOD"|"NAMESPACE"|"__"
 tipoEntero = [+-]?({numerosDecimales}|{numerosHexadecimal}|{numerosOctal}|{numerosBinarios})
 tipoFlotante = [-+]?[0-9]*\.?[0-9]+([eE]{tipoEntero}.?[0-9]*)?
-tipoCadena = ('([^'\n\\]|\\.)*')|(\"([^\"\n\\]|\\.)*\")
+tipoCadena = ('([^'\\]|\\.)*')|(\"([^\"\\]|\\.)*\")
 operandosLogicos = "and"|"or"|"xor"|"!"|"&&"|"||"
 identificadorVariable = "$"{identificador}
 identificadorConstante = {identificador}
@@ -77,3 +76,6 @@ recordset = "$"recordset"["{tipoCadena}"]"
 concatenacion = \.
 palabrasReservadas = __halt_compiler |break|clone|die|empty|endswitch|final|global|include_once|list|private|return|try|xor|abstract|callable|const|do|enddeclare|endwhile|finally|goto|instanceof|namespace|define|protected|static|unset|yield|and|case|continue|echo|endfor|eval|for|if|insteadof|new|public|switch|use|array|catch|declare|endforeach|exit|foreach|implements|interface|or|require|throw|var|as|class|default|elseif|endif|extends|function|include|isset|print|require_once|trait|while 
 EXP_ESPACIO = \n|\r\n|" "|\t|\s
+errorVariable = ({tipoEntero}|{tipoFlotante})({identificadorVariable}|{identificadorConstante})
+errormultilinea = (("/*")~(\n))
+errorasignacion = "=""!""="
