@@ -178,6 +178,7 @@ recordset = "$"recordset"["{tipoCadena}"]"
 concatenacion = \.
 palabrasReservadas = __halt_compiler |break|clone|die|empty|endswitch|final|global|include_once|list|private|return|try|xor|abstract|callable|const|do|enddeclare|endwhile|finally|goto|instanceof|namespace|define|protected|static|unset|yield|and|case|continue|echo|endfor|eval|for|if|insteadof|new|public|switch|use|array|catch|declare|endforeach|exit|foreach|implements|interface|or|require|throw|var|as|class|default|elseif|endif|extends|function|include|isset|print|require_once|trait|while 
 EXP_ESPACIO = \n|\r\n|" "|\t|\s
+errorVariable = {tipoEntero}{tipoFlotante}({identificadorVariable}|{identificadorConstante})
 
 %%
 {commentario} {Yytoken T = new Yytoken(yytext(),"Comentario",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
@@ -209,4 +210,5 @@ EXP_ESPACIO = \n|\r\n|" "|\t|\s
 {palabrasReservadas}    {Yytoken T = new Yytoken(yytext(),"palabrasReservadas",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {identificadorConstante}    {Yytoken T = new Yytoken(yytext(),"identificadorConstante",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 //Errores
+{errorVariable} {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHPError.add(T); System.out.println("Error"+ yyline);}
 .   {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHPError.add(T); System.out.println("Error"+ yyline); }
