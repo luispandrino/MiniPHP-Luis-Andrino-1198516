@@ -46,11 +46,12 @@ LinkedList ListaPHPError = new LinkedList();
 public String ruta ="";
 public void CrearArchivo(){
 ruta = ruta.substring(0,ruta.length()-3);
-File ArchivoSalida = new File(ruta+"OUT");
+File ArchivoSalida;
 BufferedWriter bw;
         try {
 
-           if(ListaPHP.isEmpty() == false && ListaPHP.isEmpty() == true){
+           if(ListaPHP.isEmpty() == false && ListaPHPError.isEmpty()){
+                  ArchivoSalida = new File(ruta+"OUT");
                   bw = new BufferedWriter(new FileWriter(ArchivoSalida));
 
                for(int i = 0; ListaPHP.size()> i; i++ ){
@@ -148,7 +149,7 @@ booleanos = {t}{r}{u}{e}|{f}{a}{l}{s}{e}
 constantesEnTiempoDeCompilacion = "__"|"LINE"|"FILE"|"DIR"|"FUNCTION"|"CLASS"|"TRAIT"|"METHOD"|"NAMESPACE"|"__"
 tipoEntero = [+-]?({numerosDecimales}|{numerosHexadecimal}|{numerosOctal}|{numerosBinarios})
 tipoFlotante = [-+]?[0-9]*\.?[0-9]+([eE]{tipoEntero}.?[0-9]*)?
-tipoCadena = ('([^'\n\\]|\\.)*')|(\"([^\"\n\\]|\\.)*\")
+tipoCadena = ('([^'\\]|\\.)*')|(\"([^\"\\]|\\.)*\")
 operandosLogicos = "and"|"or"|"xor"|"!"|"&&"|"||"
 identificadorVariable = "$"{identificador}
 identificadorConstante = {identificador}
@@ -178,8 +179,9 @@ recordset = "$"recordset"["{tipoCadena}"]"
 concatenacion = \.
 palabrasReservadas = __halt_compiler |break|clone|die|empty|endswitch|final|global|include_once|list|private|return|try|xor|abstract|callable|const|do|enddeclare|endwhile|finally|goto|instanceof|namespace|define|protected|static|unset|yield|and|case|continue|echo|endfor|eval|for|if|insteadof|new|public|switch|use|array|catch|declare|endforeach|exit|foreach|implements|interface|or|require|throw|var|as|class|default|elseif|endif|extends|function|include|isset|print|require_once|trait|while 
 EXP_ESPACIO = \n|\r\n|" "|\t|\s
-errorVariable = {tipoEntero}{tipoFlotante}({identificadorVariable}|{identificadorConstante})
-
+errorVariable = ({tipoEntero}|{tipoFlotante})({identificadorVariable}|{identificadorConstante})
+errormultilinea = (("/*")~(\n))
+errorasignacion = "=""!""="
 %%
 {commentario} {Yytoken T = new Yytoken(yytext(),"Comentario",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {tipoCadena} {Yytoken T = new Yytoken(yytext(),"Tipo Cadena",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo");}
@@ -208,7 +210,10 @@ errorVariable = {tipoEntero}{tipoFlotante}({identificadorVariable}|{identificado
 {recordset} {Yytoken T = new Yytoken(yytext(),"recordset",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {funcion}   {Yytoken T = new Yytoken(yytext(),"funcion",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
 {palabrasReservadas}    {Yytoken T = new Yytoken(yytext(),"palabrasReservadas",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{tipoEntero}({identificadorConstante}|{identificadorVariable}) {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHPError.add(T); System.out.println("Error"+ yyline); }
 {identificadorConstante}    {Yytoken T = new Yytoken(yytext(),"identificadorConstante",yyline,yycolumn); ListaPHP.add(T); System.out.println("lo guardo"); }
+{errormultilinea} {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHPError.add(T); System.out.println("Error"+ yyline); }
+{errorasignacion} {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHPError.add(T); System.out.println("Error"+ yyline); }
 //Errores
 {errorVariable} {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHPError.add(T); System.out.println("Error"+ yyline);}
 .   {Yytoken T = new Yytoken(yytext(),"Error",yyline,yycolumn); ListaPHPError.add(T); System.out.println("Error"+ yyline); }
